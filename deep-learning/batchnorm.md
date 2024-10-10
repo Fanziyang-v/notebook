@@ -100,8 +100,8 @@ class BatchNorm2d(nn.Module):
         """
         super(BatchNorm2d, self).__init__()
         # Initialize scale and shift parameters.
-        self.gamma = torch.ones(num_channels, 1, 1)
-        self.beta = torch.zeros(num_channels, 1, 1)
+        self.gamma = torch.ones(num_channels)
+        self.beta = torch.zeros(num_channels)
         self.epsilon = 1e-6
     
     def forward(self, x: Tensor) -> Tensor:
@@ -110,13 +110,18 @@ class BatchNorm2d(nn.Module):
         Args:
             x(Tensor): input feature map of shape (N, C, H, W).
         """
+        N, C, H, W = x.shape
         # Compute mean and variance over a mini-batch.
-        mean = torch.mean(x, dim=(2, 3), keepdim=True)
-        variance = torch.var(x, dim=(2, 3), keepdim=True)
+        x = torch.permute(x, dims=(0, 2, 3, 1))
+        x = x.view(N * H * W, C)
+        mean = torch.mean(x, dim=0, keepdim=True)
+        variance = torch.var(x, dim=0, keepdim=True)
         # Normalize.
         x_norm = (x - mean) / torch.sqrt(self.epsilon + variance)
         # Scale and shift.
         out = self.gamma * x_norm + self.beta
+        out = out.view(N, H, W, C)
+        out = torch.permute(0, 3, 1, 2)
         return out
 
 ```
