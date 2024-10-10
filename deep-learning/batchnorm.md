@@ -10,7 +10,7 @@
 
 ## Background
 
-所谓的**内部协变量偏移**（Internal Covariate Shift），指的是深度神经网络在训练过程中，每一层的**输入分布**都会随着前一层的参数变化而**改变**。这种现象会导致使用了饱和的激活函数（例如 Sigmoid、Tanh 等）非常难以训练，例如，Sigmoid 函数的表达式如下：
+所谓的**内部协变量偏移**（Internal Covariate Shift），指的是深度神经网络在训练过程中，每一层的**输入分布**都会随着前一层的参数变化而**改变**。这种现象会导致使用了饱和的激活函数（例如 Sigmoid、Tanh 等）非常难以训练，例如，Sigmoid 函数的表达式如下
 $$
 \sigma(x)=\frac{1}{1+e^{-x}}
 $$
@@ -20,7 +20,7 @@ $$
 
 ## Batch Normalization
 
-对于一个层的输入 $x=(x^{(1)},x^{(2)},\dots,x^{(d)})$，在每一个维度上进行**归一化**，公式如下：
+对于一个层的输入 $x=(x^{(1)},x^{(2)},\dots,x^{(d)})$，在每一个维度上进行**归一化**，公式如下
 $$
 \hat{x}^{(k)}=\frac{x^{(k)}-E[x^{(k)}]}{\sqrt{Var[^{(k)}]}}
 $$
@@ -28,7 +28,7 @@ $$
 
 其中每个维度的期望和方差在整个训练数据集上计算。
 
-注意到，**简单地归一化**每一层的输入可能会**改变这一层的表示**，为了恢复网络的表示能力，引入了一组**参数**，分别为**缩放参数** $\gamma$ 和**偏移参数** $\beta$：
+注意到，**简单地归一化**每一层的输入可能会**改变这一层的表示**，为了恢复网络的表示能力，引入了一组**参数**，分别为**缩放参数** $\gamma$ 和**偏移参数** $\beta$
 $$
 y^{(k)}=\gamma^{(k)}\hat{x}^{(k)}+\beta^{(k)}
 $$
@@ -40,11 +40,11 @@ $$
 
 我们通常在实际的训练中使用**小批量随机梯度下降**（mini-batch stochastic gradient descent），同理，不需要在整个训练数据集中计算均值和方差，可以**使用一个小批量的数据来估计每个维度的均值和方差**，下图为**小批量归一化**算法（**前向传播**）：
 
-![Mini-batch Normalization Algorithm](./assets/mini-batch normalization algorithm.png)
+![Mini-batch Normalization Algorithm](./assets/mini-batch-normalization-algorithm.png)
 
 其中 $\epsilon$ 为一个**很小的正数**，用来保证**数值稳定性**。
 
-![formula derivation](./assets/mini-batch normalization backpropagation formula derivation.png)
+![formula derivation](./assets/mini-batch-normalizatio-backpropagation-formula-derivation.png)
 
 
 
