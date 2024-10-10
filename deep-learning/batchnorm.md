@@ -53,6 +53,17 @@ $$
 
 
 
+### Training Details
+
+在训练时，我们使用**小批量数据**上计算的均值和方差统计信息，来进行批量归一化。实际上，我们使用**动量法**，计算方式如下：
+
+```python
+running_mean = momentum * running_mean + (1 - momentum) * mean
+running_var = momentum * running_var + (1 - momentum) * variance
+```
+
+在测试模式下，不会计算 `running_mean` 和 `running_var`，仅使用训练时计算好的值。
+
 ## Implementations
 
 下面是 BatchNorm 的 PyTorch 实现（`BatchNorm1d` 和 `Batchnorm2d`）：
